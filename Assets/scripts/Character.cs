@@ -7,10 +7,10 @@ public class Character : MonoBehaviourPun, IPunObservable
 {
     [Header("Stats")]
     [SerializeField]
-    private float speed = 600f;
+    private float speed;
 
     [SerializeField]
-    private float jumpForce = 800f;
+    private float jumpForce;
 
     private Rigidbody2D rb;
     private float desiredMovementAxis = 0f;
@@ -46,6 +46,7 @@ public class Character : MonoBehaviourPun, IPunObservable
 
     }
 
+    //Movimiento jugadores
     private void CheckInputs()
     {
         desiredMovementAxis = Input.GetAxisRaw("Horizontal");
@@ -67,6 +68,7 @@ public class Character : MonoBehaviourPun, IPunObservable
         transform.position = Vector3.Lerp(transform.position, enemyPosition, Time.deltaTime * 20);
     }
 
+    //
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -82,9 +84,11 @@ public class Character : MonoBehaviourPun, IPunObservable
         }
     }
 
+    //Disparo pium para todos los jugadores
     private void MuleMule() {
         PhotonNetwork.Instantiate("Bullet", transform.position + new Vector3(1f, 0f, 0f), Quaternion.identity);
     }
+
 
     public void Damage() {
         pv.RPC("NetworkDamage", RpcTarget.All);
