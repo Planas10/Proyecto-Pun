@@ -15,9 +15,9 @@ public class Character : MonoBehaviourPun, IPunObservable
     private Rigidbody2D rb;
     private float desiredMovementAxis = 0f;
 
-    private PhotonView pv;
+    public PhotonView pv;
     private Vector3 enemyPosition = Vector3.zero;
-
+    float direction;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,7 +50,7 @@ public class Character : MonoBehaviourPun, IPunObservable
     private void CheckInputs()
     {
         desiredMovementAxis = Input.GetAxisRaw("Horizontal");
-
+        direction = Mathf.Sign(desiredMovementAxis);
         if (Input.GetButtonDown("Jump") && Mathf.Approximately(rb.velocity.y, 0f))
         {
             rb.AddForce(new Vector2(0f, jumpForce));
@@ -59,7 +59,7 @@ public class Character : MonoBehaviourPun, IPunObservable
         //codigo pium pium
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            MuleMule();
+            Shoot();
         }
     }
 
@@ -85,16 +85,21 @@ public class Character : MonoBehaviourPun, IPunObservable
     }
 
     //Disparo pium para todos los jugadores
-    private void MuleMule() {
-        PhotonNetwork.Instantiate("Bullet", transform.position + new Vector3(1f, 0f, 0f), Quaternion.identity);
+    private void Shoot()
+    {
+        GameObject bala = PhotonNetwork.Instantiate("Bullet", transform.position + new Vector3(direction, 0f, 0f), Quaternion.identity);
+        bala.GetComponent<Bullet>().playerId = pv.ViewID;
+        bala.GetComponent<Bullet>().StartMoving(direction);
     }
 
 
-    public void Damage() {
+    public void Damage() 
+    {
         pv.RPC("NetworkDamage", RpcTarget.All);
     }
-
-    private void NetworkDamage() {
+    [PunRPC]
+    public void NetworkDamage()
+    {
         Destroy(this.gameObject);
     }
 

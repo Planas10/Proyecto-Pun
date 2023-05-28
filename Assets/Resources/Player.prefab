@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 600
   jumpForce: 200
+  pv: {fileID: 0}
 --- !u!1 &5420970334182002182
 GameObject:
   m_ObjectHideFlags: 0

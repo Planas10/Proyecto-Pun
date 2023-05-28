@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviourPun
     [SerializeField]
     private float speed = 10f;
     private Rigidbody2D rb;
-
+    public int playerId;
     private PhotonView pv;
 
     private void Awake()
@@ -19,13 +19,23 @@ public class Bullet : MonoBehaviourPun
 
     private void Start()
     {
-        rb.velocity = new Vector2(speed, 0);
+    }
+    public void StartMoving(float dir) 
+    {
+        rb.velocity = new Vector2(speed * dir, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<Character>().Damage();
-        pv.RPC("NetworkDestroy", RpcTarget.All);
+        Character c = collision.gameObject.GetComponent<Character>();
+        if (c != null) 
+        {
+            if (playerId == c.pv.ViewID || playerId == 0)
+                return;
+
+            collision.gameObject.GetComponent<Character>().Damage();
+            pv.RPC("NetworkDestroy", RpcTarget.All);
+        }
     }
 
     [PunRPC]
