@@ -18,7 +18,7 @@ public class Network_Manager : MonoBehaviour
     private NetworkStream stream;
     private StreamWriter writer;
     private StreamReader reader;
-    const string host = "192.168.0.14";
+    const string host = "172.31.98.103";
     const int port = 6543;
     bool connected;
     public string playerName;

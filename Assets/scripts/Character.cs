@@ -37,7 +37,7 @@ public class Character : MonoBehaviourPun, IPunObservable
         if (pv.IsMine)
             UpdateStats(Network_Manager._NETWORK_MANAGER.selectedRaza);
         if(stats.speed == 0)
-            stats.speed = 3;
+            stats.speed = 1000;
     }
 
     private void Update()
