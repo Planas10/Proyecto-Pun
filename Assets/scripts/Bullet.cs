@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviourPun
     private Rigidbody2D rb;
     public int playerId;
     private PhotonView pv;
+    public float damage;
 
     private void Awake()
     {

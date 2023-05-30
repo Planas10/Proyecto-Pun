@@ -38,6 +38,8 @@ MonoBehaviour:
   - DestroyRpc
   - NetworkDestroy
   - NetworkDamage
+  - SetPlayerName
+  - SetPlayerStats
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

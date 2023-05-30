@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Room_UI_Manager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class Room_UI_Manager : MonoBehaviour
     [SerializeField] private Button joinButton;
     [SerializeField] private Text createText;
     [SerializeField] private Text joinText;
+    [SerializeField] private TextMeshProUGUI messageText;
+    public GameObject menu;
+    public GameObject matchmaking;
+
 
 
     private void Awake()
@@ -28,5 +33,9 @@ public class Room_UI_Manager : MonoBehaviour
     {
 
         Photon_Manager._PHOTON_MANAGER.JoinRoom(joinText.text.ToString());
+    }
+    public void SetMessageText(string m) 
+    {
+        messageText.text = m;
     }
 }

@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class Photon_Manager : MonoBehaviourPunCallbacks
 {
     public static Photon_Manager _PHOTON_MANAGER;
-
+    public Room_UI_Manager manager;
     private void Awake()
     {
         //Generamos singleton
@@ -75,10 +75,16 @@ public class Photon_Manager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        newPlayer.NickName = Network_Manager._NETWORK_MANAGER.playerName;
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("InGame");
         }
+    }
+    public void LoadMatchmaking() 
+    {
+        manager.menu.gameObject.SetActive(false);
+        manager.matchmaking.gameObject.SetActive(true);
     }
 
 }
